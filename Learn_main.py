@@ -54,6 +54,30 @@ async def lapis(ctx:commands.Context):
     
     await ctx.reply(files=[imagem_arquivo, thumb_arquivo, autor_foto], embed=meu_embed)
 
+@botMiyo.command()
+async def nelliaT(ctx:commands.Context): 
+    #inicia o embed
+    nelliaT_embed = discord.Embed()
+    #Autor tipo um titulo
+    puni = discord.File("img/elementos/puni.png",filename="puni.png")
+    nelliaT_embed.set_author(name="Nellia (T)",icon_url="attachment://puni.png")
+    #Background
+    nelliaT_bg = discord.File('img/nelliaT/nelliaT_bg3.png', 'nelliaT_bg.png')
+    nelliaT_embed.set_image(url='attachment://nelliaT_bg.png')
+    #Emojis para o bot
+    sacer = "<:sacer:1248071116279255180>"
+    rankT = "<:RankT:1252411149769510984>"
+    #descricao com emoji
+    nelliaT_embed.description = f"Classe:{sacer}  Rank {rankT}"
+    nelliaT_embed.add_field(name="Equipamento", value="PVE:", inline=False)
+    #thmbunail
+    nelliaT_thumb = discord.File("img/nelliaT/nelliaT_Thumb.png", "nelliaT_thumb.png")
+    nelliaT_embed.set_thumbnail(url="attachment://nelliaT_thumb.png")
+    #cor lateral
+    nelliaT_embed.color = discord.Color.dark_purple()
+    #mensagem
+    await ctx.reply(files=[nelliaT_bg,nelliaT_thumb,puni],embed=nelliaT_embed)
+
 # miyo repetindo os outros    
 #@botMiyo.command()
 #async def falar(ctx:commands.Context, *,frase): #só coloque o *, antes se for a frase todoa e não a primeira palavra
