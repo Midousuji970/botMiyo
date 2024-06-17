@@ -1,5 +1,15 @@
+import os
+from dotenv import load_dotenv
 import discord
 from discord.ext import commands
+
+load_dotenv()
+
+TOKEN = os.getenv("DISCORD_TOKEN")
+if TOKEN is None:
+    raise ValueError("Token não encontrado. Verifique o arquivo .env e a variável DISCORD_TOKEN.")
+
+
 # permissoes dele
 permissoes = discord.Intents.default()
 permissoes.message_content = True
@@ -21,6 +31,29 @@ async def somar(ctx:commands.Context, num1:float, num2:float):
     res = num1 + num2
     await ctx.reply(f"A soma de {num1} + {num2} = {res}")
 
+@botMiyo.command()
+async def lapis(ctx:commands.Context):
+    meu_embed = discord.Embed(title="Lapis",description="abbadon")    
+    
+    imagem_arquivo = discord.File('img/lapis_bg.png','LapisBG.png')
+    meu_embed.set_image(url="attachment://LapisBG.png")
+
+    thumb_arquivo = discord.File("img/lapis_icon.png",'thumb.png')
+    meu_embed.set_thumbnail(url='attachment://thumb.png')
+
+    meu_embed.set_footer(text="LapisTeste")
+    
+    meu_embed.color = discord.Color.pink()
+    
+    autor_foto = discord.File('img/autor.png','autor.png')
+    meu_embed.set_author(name="Midou",icon_url="attachment://autor.png")
+   
+    meu_embed.add_field(name="Skill",value=10,inline=False)
+    meu_embed.add_field(name="Skill2",value="Quazar",inline=False)
+    meu_embed.add_field(name="skill3",value="Myst",inline=False)
+    
+    await ctx.reply(files=[imagem_arquivo, thumb_arquivo, autor_foto], embed=meu_embed)
+
 # miyo repetindo os outros    
 #@botMiyo.command()
 #async def falar(ctx:commands.Context, *,frase): #só coloque o *, antes se for a frase todoa e não a primeira palavra
@@ -31,10 +64,6 @@ async def somar(ctx:commands.Context, num1:float, num2:float):
 async def calendario(ctx:commands.Context):
     link = "https://i.imgur.com/uibyKGY.png"
     await ctx.reply(link)
-
-@botMiyo.command()
-async def miyo(ctx:commands.Context):
-    await ctx.reply("O Miyo Adora rolas! ")
 # Verifica se esta online
 @botMiyo.event
 async def on_ready():
@@ -67,7 +96,4 @@ async def on_message(msg:discord.message):
     #await canal.send(f"{membro.display_name} Vagabundo!")
 #Iniciar o bot
 
-with open("token.txt", "r") as token_file:
-    txtToken = token_file.read().strip()
-
-botMiyo.run(txtToken)
+botMiyo.run(TOKEN)
