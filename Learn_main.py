@@ -59,7 +59,7 @@ async def nelliaT(ctx:commands.Context):
     #inicia o embed
     nelliaT_embed = discord.Embed()
     #Autor tipo um titulo
-    puni = discord.File("img/elementos/puni.png",filename="puni.png")
+    puni = discord.File(R"img/elementos/puni.png","puni.png")
     nelliaT_embed.set_author(name="Nellia (T)",icon_url="attachment://puni.png")
     #Background
     nelliaT_bg = discord.File('img/nelliaT/nelliaT_bg3.png', 'nelliaT_bg.png')
@@ -77,6 +77,65 @@ async def nelliaT(ctx:commands.Context):
     nelliaT_embed.color = discord.Color.dark_purple()
     #mensagem
     await ctx.reply(files=[nelliaT_bg,nelliaT_thumb,puni],embed=nelliaT_embed)
+
+@botMiyo.command()
+async def veigasT(ctx:commands.Context):
+    veigasT_embed = discord.Embed()    
+    puni = discord.File(R"img/elementos/puni.png","puni.png")
+
+    veigasT_embed.set_author(name="Veigas (T)",icon_url="attachment://puni.png")
+
+    veigasT_bg = discord.File("img/equip/RangerGreen.png", "RangerGreen.png")
+    veigasT_embed.set_image(url="attachment://RangerGreen.png")
+    await ctx.reply(files=[puni,veigasT_bg],embed=veigasT_embed)
+#####################################################################################################################
+#botoes
+@botMiyo.command()
+async def testeBtn(ctx:commands.Context):
+    async def res_btn(interact:discord.Interaction):
+        await interact.response.send_message("Miyo Viado!",ephemeral=True)#ephemeral é mensagem que só o usuario pode ver
+        #A segunda mensagem é como se fosse uma continuação ja que nao se pode usar dois response.send_message no mesmo comando
+        await interact.followup.send("Urubu do Pix 50 reais viram 5000",ephemeral=True)
+
+    view = discord.ui.View()#Core de refente aos menus e botoes
+    botao = discord.ui.Button(label="Botão", style=discord.ButtonStyle.blurple)# label é o texto do botao e style a cor dele
+    botao.callback = res_btn # aqui ele chama a função do res_btn
+    #botao com link
+    btn_url = discord.ui.Button(label="Teste",url="https://www.youtube.com/watch?v=fdOfkOfD5_k")
+    #adicione na view o botao
+    view.add_item(botao)
+    view.add_item(btn_url)
+
+    await ctx.reply(view=view)
+
+@botMiyo.command()
+async def menuTeste(ctx:commands.Context):
+    async def res_menu(interact:discord.Interaction):
+        num1 = 0
+        while num1 < 2:
+            jogos = {'1':'Grand Chase','2':'Elsword','3':'Priconne'}
+            match num1:
+                case 0:
+                    escolha = interact.data["values"][0]                    
+                    jogo_es = jogos[escolha]
+                case 1:
+                    escolha2 = interact.data["values"][1]    
+                    jogo_es2= jogos[escolha2]
+            num1 += 1
+        
+        await interact.response.send_message(F"Jogos Escolhidos: {jogo_es} e {jogo_es2}",ephemeral=True)
+
+    menuSele = discord.ui.Select(placeholder="Selecione Algum!",max_values=2)
+    opcoes = [
+        discord.SelectOption(label="Grand Chase",value=1),
+        discord.SelectOption(label="Elsword",value=2),
+        discord.SelectOption(label="Priconne",value=3)
+    ]
+    menuSele.options = opcoes
+    menuSele.callback = res_menu
+    view = discord.ui.View()
+    view.add_item(menuSele)
+    await ctx.send(view=view)
 
 # miyo repetindo os outros    
 #@botMiyo.command()
